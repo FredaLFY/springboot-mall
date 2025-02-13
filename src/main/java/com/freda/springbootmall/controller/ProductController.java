@@ -1,5 +1,6 @@
 package com.freda.springbootmall.controller;
 
+import com.freda.springbootmall.constant.ProductCategory;
 import com.freda.springbootmall.dto.ProductRequest;
 import com.freda.springbootmall.model.Product;
 import com.freda.springbootmall.service.ProductService;
@@ -18,8 +19,11 @@ public class ProductController {
     ProductService productService;
 
     @GetMapping("/products")
-    public ResponseEntity<List<Product>> getProducts() {
-        List<Product> productList = productService.getProducts();
+    public ResponseEntity<List<Product>> getProducts(
+            @RequestParam(required = false) ProductCategory category,
+            @RequestParam(required = false) String search
+    ) {
+        List<Product> productList = productService.getProducts(category, search);
 
         return ResponseEntity.ok(productList);
     }
