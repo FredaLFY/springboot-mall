@@ -2,6 +2,7 @@ package com.freda.springbootmall.dao.impl;
 
 import com.freda.springbootmall.constant.ProductCategory;
 import com.freda.springbootmall.dao.ProductDao;
+import com.freda.springbootmall.dto.ProductQueryParams;
 import com.freda.springbootmall.dto.ProductRequest;
 import com.freda.springbootmall.model.Product;
 import com.freda.springbootmall.rowmapper.ProductRowMapper;
@@ -21,7 +22,7 @@ public class ProductDaoImpl implements ProductDao {
     NamedParameterJdbcTemplate namedParameterJdbcTemplate;
 
     @Override
-    public List<Product> getProducts(ProductCategory category, String search) {
+    public List<Product> getProducts(ProductQueryParams productQueryParams) {
         String sql = "SELECT " +
                 "product_id, product_name, category, image_url, price, " +
                 "stock, description, created_date, last_modified_date " +
@@ -29,11 +30,13 @@ public class ProductDaoImpl implements ProductDao {
 
         Map<String, Object> map = new HashMap<>();
 
+        ProductCategory category = productQueryParams.getCategory();
         if (category != null) {
             sql += "AND category = :category ";
             map.put("category", category.name());
         }
 
+        String search = productQueryParams.getSearch();
         if (search != null) {
             sql += "AND product_name LIKE :search ";
             map.put("search", "%" + search + "%");

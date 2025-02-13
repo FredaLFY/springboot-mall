@@ -1,6 +1,7 @@
 package com.freda.springbootmall.controller;
 
 import com.freda.springbootmall.constant.ProductCategory;
+import com.freda.springbootmall.dto.ProductQueryParams;
 import com.freda.springbootmall.dto.ProductRequest;
 import com.freda.springbootmall.model.Product;
 import com.freda.springbootmall.service.ProductService;
@@ -23,7 +24,11 @@ public class ProductController {
             @RequestParam(required = false) ProductCategory category,
             @RequestParam(required = false) String search
     ) {
-        List<Product> productList = productService.getProducts(category, search);
+        ProductQueryParams productQueryParams = new ProductQueryParams();
+        productQueryParams.setCategory(category);
+        productQueryParams.setSearch(search);
+
+        List<Product> productList = productService.getProducts(productQueryParams);
 
         return ResponseEntity.ok(productList);
     }
