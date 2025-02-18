@@ -82,7 +82,7 @@ public class ProductDaoImpl implements ProductDao {
                 "description, created_date, last_modified_date" +
                 ") VALUES (" +
                 ":product_name, :category, :image_url, :price, :stock, " +
-                ":description, :created_date, :last_modified_date" +
+                ":description, :createdDate, :lastModifiedDate" +
                 ")";
 
         Map<String, Object> map = new HashMap<>();
@@ -94,8 +94,8 @@ public class ProductDaoImpl implements ProductDao {
         map.put("description", productRequest.getDescription());
 
         Date now = new Date();
-        map.put("created_date", now);
-        map.put("last_modified_date", now);
+        map.put("createdDate", now);
+        map.put("lastModifiedDate", now);
 
         KeyHolder keyHolder = new GeneratedKeyHolder();
 
@@ -107,26 +107,38 @@ public class ProductDaoImpl implements ProductDao {
     @Override
     public void updateProduct(Integer productId, ProductRequest productRequest) {
         String sql = "UPDATE product " +
-                "SET product_name = :product_name, " +
+                "SET product_name = :productName, " +
                 "    category = :category, " +
-                "    image_url = :image_url, " +
+                "    image_url = :imageUrl, " +
                 "    price = :price, " +
                 "    stock = :stock, " +
                 "    description = :description, " +
-                "    last_modified_date = :last_modified_date " +
-                "WHERE product_id = :product_id";
+                "    last_modified_date = :lastModifiedDate " +
+                "WHERE product_id = :productId";
 
         Map<String, Object> map = new HashMap<>();
-        map.put("product_id", productId);
-
-        map.put("product_name", productRequest.getProductName());
+        map.put("productId", productId);
+        map.put("productName", productRequest.getProductName());
         map.put("category", productRequest.getCategory().toString());
-        map.put("image_url", productRequest.getImageUrl());
+        map.put("imageUrl", productRequest.getImageUrl());
         map.put("price", productRequest.getPrice());
         map.put("stock", productRequest.getStock());
         map.put("description", productRequest.getDescription());
+        map.put("lastModifiedDate", new Date());
 
-        map.put("last_modified_date", new Date());
+        namedParameterJdbcTemplate.update(sql, map);
+    }
+
+    @Override
+    public void updateStock(Integer productId, Integer stock) {
+        String sql = "UPDATE product " +
+                "SET stock = :stock, last_modified_date = :lastModifiedDate " +
+                "WHERE product_id = :productId";
+
+        Map<String, Object> map = new HashMap<>();
+        map.put("productId", productId);
+        map.put("stock", stock);
+        map.put("lastModifiedDate", new Date());
 
         namedParameterJdbcTemplate.update(sql, map);
     }
