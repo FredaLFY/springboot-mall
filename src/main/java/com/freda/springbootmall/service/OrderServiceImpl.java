@@ -4,6 +4,7 @@ import com.freda.springbootmall.dao.OrderDao;
 import com.freda.springbootmall.dao.ProductDao;
 import com.freda.springbootmall.dto.BuyItem;
 import com.freda.springbootmall.dto.CreateOrderRequest;
+import com.freda.springbootmall.model.Order;
 import com.freda.springbootmall.model.OrderItem;
 import com.freda.springbootmall.model.Product;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,6 +22,17 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private ProductDao productDao;
+
+    @Override
+    public Order getOrderById(Integer orderId) {
+        Order order = orderDao.getOrderById(orderId);
+
+        List<OrderItem> orderItemList = orderDao.getOrderItemsByOrderId(orderId);
+
+        order.setOrderItemList(orderItemList);
+
+        return order;
+    }
 
     @Transactional
     @Override
