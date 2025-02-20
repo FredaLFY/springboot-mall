@@ -5,6 +5,7 @@ import com.freda.springbootmall.dao.ProductDao;
 import com.freda.springbootmall.dao.UserDao;
 import com.freda.springbootmall.dto.BuyItem;
 import com.freda.springbootmall.dto.CreateOrderRequest;
+import com.freda.springbootmall.dto.OrderQueryParams;
 import com.freda.springbootmall.model.Order;
 import com.freda.springbootmall.model.OrderItem;
 import com.freda.springbootmall.model.Product;
@@ -33,6 +34,20 @@ public class OrderServiceImpl implements OrderService {
 
     @Autowired
     private UserDao userDao;
+
+    @Override
+    public Integer countOrder(OrderQueryParams orderQueryParams) {
+        return orderDao.countOrder(orderQueryParams);
+    }
+
+    @Override
+    public List<Order> getOrders(OrderQueryParams orderQueryParams) {
+        return orderDao
+                .getOrders(orderQueryParams)
+                .stream()
+                .peek(order -> order.setOrderItemList(orderDao.getOrderItemsByOrderId(order.getOrderId())))
+                .toList();
+    }
 
     @Override
     public Order getOrderById(Integer orderId) {
