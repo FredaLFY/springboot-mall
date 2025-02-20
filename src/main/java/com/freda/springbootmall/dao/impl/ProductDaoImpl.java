@@ -81,14 +81,14 @@ public class ProductDaoImpl implements ProductDao {
                 "product_name, category, image_url, price, stock, " +
                 "description, created_date, last_modified_date" +
                 ") VALUES (" +
-                ":product_name, :category, :image_url, :price, :stock, " +
+                ":productName, :category, :imageUrl, :price, :stock, " +
                 ":description, :createdDate, :lastModifiedDate" +
                 ")";
 
         Map<String, Object> map = new HashMap<>();
-        map.put("product_name", productRequest.getProductName());
+        map.put("productName", productRequest.getProductName());
         map.put("category", productRequest.getCategory().toString());
-        map.put("image_url", productRequest.getImageUrl());
+        map.put("imageUrl", productRequest.getImageUrl());
         map.put("price", productRequest.getPrice());
         map.put("stock", productRequest.getStock());
         map.put("description", productRequest.getDescription());
