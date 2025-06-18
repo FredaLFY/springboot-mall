@@ -1,4 +1,4 @@
-package com.freda.springbootmall.service;
+package com.freda.springbootmall.service.impl;
 
 import com.freda.springbootmall.dao.OrderDao;
 import com.freda.springbootmall.dao.ProductDao;
@@ -10,6 +10,7 @@ import com.freda.springbootmall.model.Order;
 import com.freda.springbootmall.model.OrderItem;
 import com.freda.springbootmall.model.Product;
 import com.freda.springbootmall.model.User;
+import com.freda.springbootmall.service.OrderService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
